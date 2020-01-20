@@ -1,4 +1,5 @@
 import React from "react";
+import { Localized } from "@fluent/react";
 
 export default class Creepometer extends React.Component {
   constructor(props) {
@@ -155,12 +156,16 @@ export default class Creepometer extends React.Component {
             ref={e => (this.sliderElement = e)}
             onClick={evt => this.slideClick(evt)}
           >
-            <div className="body-small copy copy-left">Not creepy</div>
+            <div className="body-small copy copy-left">
+              <Localized id="not-creepy">{`Not creepy`}</Localized>
+            </div>
             <div className="trackhead" {...trackheadOpts}>
               <div className="face" {...faceOpts} {...mouseOpts} />
               <div className="pip" {...mouseOpts} />
             </div>
-            <div className="body-small copy copy-right">Super creepy</div>
+            <div className="body-small copy copy-right">
+              <Localized id="super-creepy">{`Super creepy`}</Localized>
+            </div>
           </div>
         </div>
       </div>

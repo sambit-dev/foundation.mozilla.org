@@ -5,8 +5,7 @@ import CreepChart from "../creepiness-chart/creepiness-chart.jsx";
 import LikelyhoodChart from "../likelyhood-chart/likelyhood-chart.jsx";
 import SocialShare from "../social-share/social-share.jsx";
 import JoinUs from "../../../components/join/join.jsx";
-import { getText } from "../../../components/petition/locales";
-
+import { Localized } from "@fluent/react";
 import CREEPINESS_LABELS from "../creepiness-labels.js";
 
 export default class CreepVote extends React.Component {
@@ -154,7 +153,7 @@ export default class CreepVote extends React.Component {
 
     return [
       <div className="what-you-think-label h5-heading">
-        Tell us what you think
+        <Localized id="tell-us">{`Tell us what you think`}</Localized>
       </div>,
       <form
         method="post"
@@ -165,7 +164,7 @@ export default class CreepVote extends React.Component {
           <div className="col-12 col-md-6">
             <div className="mb-4 text-center">
               <h3 className="h5-heading mb-2">
-                How creepy do you think this is?
+                <Localized id="how-creepy">{`How creepy do you think this is?`}</Localized>
               </h3>
             </div>
             <Creepometer
@@ -175,7 +174,9 @@ export default class CreepVote extends React.Component {
           </div>
           <div className="col-12 col-md-6 mt-5 mt-md-0">
             <div className="mb-4 text-center">
-              <h3 className="h5-heading mb-2">How likely are you to buy it?</h3>
+              <h3 className="h5-heading mb-2">
+                <Localized id="how-likely">{`How likely are you to buy it?`}</Localized>
+              </h3>
             </div>
             <div className="text-center">
               <div
@@ -193,7 +194,7 @@ export default class CreepVote extends React.Component {
                     className={likelyClasses}
                     onClick={() => this.setConfidence(true)}
                   >
-                    Likely
+                    <Localized id="likely">{`Likely`}</Localized>
                   </span>
                 </label>
                 <label for="unlikely">
@@ -207,7 +208,7 @@ export default class CreepVote extends React.Component {
                     className={unlikelyClasses}
                     onClick={() => this.setConfidence(false)}
                   >
-                    Not likely
+                    <Localized id="not-likely">{`Not likely`}</Localized>
                   </span>
                 </label>
               </div>
@@ -221,9 +222,16 @@ export default class CreepVote extends React.Component {
               type="submit"
               className="btn btn-secondary mb-2"
             >
-              Vote & See Results
+              <Localized id="vote-button">{`Vote & See Results`}</Localized>
             </button>
-            <p class="h6-heading mb-0">{this.state.totalVotes} votes</p>
+            <p class="h6-heading mb-0">
+              <Localized
+                id="vote-counter"
+                $voteCount={Number(this.state.totalVotes)}
+              >
+                {`{$voteCount} votes`}
+              </Localized>
+            </p>
           </div>
         </div>
       </form>
@@ -242,18 +250,18 @@ export default class CreepVote extends React.Component {
         onClick={() => this.handleSignUp(false)}
         type="button"
       >
-        Close
+        <Localized id="close-button">{`Close`}</Localized>
       </button>,
-      <JoinUs
-        formPosition="flow"
-        flowHeading={getText(`You Voted! You Rock!`)}
-        flowText={getText(
-          `Now that you’re on a roll, why not join Mozilla? We’re not creepy (we promise). We actually fight back against creepy. And we need more people like you.`
-        )}
-        csrfToken={this.props.joinUsCSRF}
-        apiUrl={this.props.joinUsApiUrl}
-        handleSignUp={successState => this.handleSignUp(successState)}
-      />
+      <Localized id="join-us" attrs={{ flowHeading: true, flowText: true }}>
+        <JoinUs
+          formPosition="flow"
+          flowHeading="You Voted! You Rock!"
+          flowText="Now that you’re on a roll, why not join Mozilla? We’re not creepy (we promise). We actually fight back against creepy. And we need more people like you."
+          csrfToken={this.props.joinUsCSRF}
+          apiUrl={this.props.joinUsApiUrl}
+          handleSignUp={successState => this.handleSignUp(successState)}
+        />
+      </Localized>
     ];
   }
 
@@ -270,7 +278,12 @@ export default class CreepVote extends React.Component {
         <div className="mb-5">
           <div className="col-12 text-center">
             <h3 className="h2-heading mb-1">
-              {this.state.totalVotes + 1} Votes — invite your friends!
+              <Localized
+                id="voted-header"
+                $voteCount={this.state.totalVotes + 1}
+              >
+                {`{$voteCount} Vote — invite your friends!`}
+              </Localized>
             </h3>
             <div className="h6-heading text-muted" />
           </div>

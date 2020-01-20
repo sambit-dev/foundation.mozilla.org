@@ -8,6 +8,8 @@ import navNewsletter from "../nav-newsletter.js";
 import CreepVote from "./components/creep-vote/creep-vote.jsx";
 import Creepometer from "./components/creepometer/creepometer.jsx";
 import JoinUs from "../components/join/join.jsx";
+import { LocalizationProvider } from "@fluent/react";
+import { getBundles } from "../l10n";
 
 import copyToClipboard from "../../js/copy-to-clipboard.js";
 import HomepageSlider from "./homepage-c-slider.js";
@@ -141,15 +143,17 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <CreepVote
-              csrf={csrf.value}
-              productName={productName}
-              productID={parseInt(productID, 10)}
-              votes={votes}
-              whenLoaded={() => resolve()}
-              joinUsCSRF={csrfToken}
-              joinUsApiUrl={`${networkSiteURL}/api/campaign/signups/0/`}
-            />,
+            <LocalizationProvider bundles={getBundles()}>
+              <CreepVote
+                csrf={csrf.value}
+                productName={productName}
+                productID={parseInt(productID, 10)}
+                votes={votes}
+                whenLoaded={() => resolve()}
+                joinUsCSRF={csrfToken}
+                joinUsApiUrl={`${networkSiteURL}/api/campaign/signups/0/`}
+              />
+            </LocalizationProvider>,
             element
           );
         })
@@ -161,10 +165,12 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <Creepometer
-              initialValue={initialValue}
-              whenLoaded={() => resolve()}
-            />,
+            <LocalizationProvider bundles={getBundles()}>
+              <Creepometer
+                initialValue={initialValue}
+                whenLoaded={() => resolve()}
+              />
+            </LocalizationProvider>,
             element
           );
         })
@@ -182,7 +188,9 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <JoinUs {...props} whenLoaded={() => resolve()} />,
+            <LocalizationProvider bundles={getBundles()}>
+              <JoinUs {...props} whenLoaded={() => resolve()} />
+            </LocalizationProvider>,
             element
           );
         })

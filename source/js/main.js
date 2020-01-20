@@ -5,6 +5,8 @@ import ReactGA from "react-ga";
 import ReactDOM from "react-dom";
 import Analytics from "./analytics.js";
 import * as Sentry from "@sentry/browser";
+import { LocalizationProvider } from "@fluent/react";
+import { getBundles } from "./l10n";
 
 import JoinUs from "./components/join/join.jsx";
 import Petition from "./components/petition/petition.jsx";
@@ -296,7 +298,9 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <JoinUs {...props} whenLoaded={() => resolve()} />,
+            <LocalizationProvider bundles={getBundles()}>
+              <JoinUs {...props} whenLoaded={() => resolve()} />
+            </LocalizationProvider>,
             element
           );
         })
@@ -318,12 +322,14 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <Petition
-              {...props}
-              isHidden={false}
-              subscribed={subscribed}
-              whenLoaded={() => resolve()}
-            />,
+            <LocalizationProvider bundles={getBundles()}>
+              <Petition
+                {...props}
+                isHidden={false}
+                subscribed={subscribed}
+                whenLoaded={() => resolve()}
+              />
+            </LocalizationProvider>,
             element
           );
         })
@@ -362,7 +368,9 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <News env={env} whenLoaded={() => resolve()} />,
+            <LocalizationProvider bundles={getBundles()}>
+              <News env={env} whenLoaded={() => resolve()} />
+            </LocalizationProvider>,
             document.querySelector(`#news`)
           );
         })
@@ -374,17 +382,19 @@ let main = {
       apps.push(
         new Promise(resolve => {
           ReactDOM.render(
-            <PulseProjectList
-              env={env}
-              featured={target.dataset.featured === `True`}
-              help={target.dataset.help}
-              issues={target.dataset.issues}
-              max={parseInt(target.dataset.max, 10)}
-              query={target.dataset.query || ``}
-              reverseChronological={target.dataset.reversed === `True`}
-              whenLoaded={() => resolve()}
-              directLink={target.dataset.directLink === `True`}
-            />,
+            <LocalizationProvider bundles={getBundles()}>
+              <PulseProjectList
+                env={env}
+                featured={target.dataset.featured === `True`}
+                help={target.dataset.help}
+                issues={target.dataset.issues}
+                max={parseInt(target.dataset.max, 10)}
+                query={target.dataset.query || ``}
+                reverseChronological={target.dataset.reversed === `True`}
+                whenLoaded={() => resolve()}
+                directLink={target.dataset.directLink === `True`}
+              />
+            </LocalizationProvider>,
             target
           );
         })
@@ -400,7 +410,9 @@ let main = {
         apps.push(
           new Promise(resolve => {
             ReactDOM.render(
-              <ShareButtonGroup {...props} whenLoaded={() => resolve()} />,
+              <LocalizationProvider bundles={getBundles()}>
+                <ShareButtonGroup {...props} whenLoaded={() => resolve()} />
+              </LocalizationProvider>,
               element
             );
           })
