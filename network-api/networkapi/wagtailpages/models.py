@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.template import loader
 from django.template.defaultfilters import slugify
+from django.utils.translation import gettext_lazy
 
 
 from . import customblocks
@@ -96,8 +97,8 @@ class FoundationMetadataPageMixin(MetadataPageMixin):
             self.social_share_tag = None
 
     # Change this string to update the default description of all pages on the site
-    default_description = 'Mozilla is a global non-profit dedicated to putting you in control of your online ' \
-                          'experience and shaping the future of the web for the public good. '
+    default_description = gettext_lazy('Mozilla is a global non-profit dedicated to putting you in control of your ' \
+                          'online experience and shaping the future of the web for the public good.')
 
     def get_meta_description(self):
         if self.search_description:
