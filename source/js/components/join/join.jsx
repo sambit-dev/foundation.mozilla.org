@@ -118,8 +118,8 @@ export default class JoinUs extends React.Component {
     return new Promise((resolve, reject) => {
       let payload = {
         email: this.email.value,
-        /* Strip query params in source url for newsletter signups: https://github.com/mozilla/foundation.mozilla.org/issues/2994#issuecomment-516997473 */
-        source: window.location.href.split(`?`)[0]
+        /* keeping query params in source url for newsletter signups: https://github.com/mozilla/foundation.mozilla.org/issues/4102#issuecomment-590973606 */
+        source: window.location.href
       };
 
       if (this.givenNames) {
@@ -225,7 +225,9 @@ export default class JoinUs extends React.Component {
     });
 
     let layoutClasses = classNames(`col-12`, {
-      "col-md-6": this.props.layout === `2-column`,
+      "col-md-6": this.props.layout === `2-column` && !this.state.apiSuccess,
+      "col-sm-12 col-md-8":
+        this.props.layout === `2-column` && this.state.apiSuccess,
       "col-md-11 m-auto": this.isFlowForm()
     });
 
@@ -261,17 +263,16 @@ export default class JoinUs extends React.Component {
           {!this.state.apiSuccess ? `${this.props.ctaHeader}` : `Thanks!`}
         </h5>
         {!this.state.apiSuccess ? (
-          <p
+          <div
             dangerouslySetInnerHTML={{
               __html: this.props.ctaDescription
             }}
           />
         ) : (
-          <p
-            dangerouslySetInnerHTML={{
-              __html: this.props.thankYouMessage
-            }}
-          />
+          <React.Fragment>
+            <p>{getText(`confirm your email opt-in`)}</p>
+            <p>{getText(`manage your subscriptions`)}</p>
+          </React.Fragment>
         )}
       </React.Fragment>
     );
@@ -524,8 +525,7 @@ export default class JoinUs extends React.Component {
 
 JoinUs.defaultProps = {
   ctaHeader: `Protect the internet as a global public resource`,
-  ctaDescription: `Join our email list to take action and stay updated!`,
-  thankYouMessage: `If you haven’t previously confirmed a subscription to a Mozilla-related newsletter you may have to do so. <strong>Please check your inbox or your spam filter for an email from us.</strong>`,
+  ctaDescription: `<p>Join our <b>Mozilla News</b> email list to take action and stay updated!</p>`,
   newsletter: `mozilla-foundation`,
   askName: false
 };
